@@ -4,7 +4,10 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 public class Ball extends Rectangle {
-
+	
+	Random rand;
+	int velX;
+	int velY;
 	public Ball() {
 		// TODO Auto-generated constructor stub
 	}
