@@ -9,7 +9,7 @@ public class Paddle extends Rectangle {
 	
 	int id;
 	int velY;
-	int speed=10;
+	int speed=8;
 	public Paddle(int x, int y, int paddleWidth, int paddleHeight,int id) {
 		super(x,y,paddleWidth,paddleHeight);
 		this.id =  id;
@@ -76,6 +76,7 @@ public class Paddle extends Rectangle {
 	}
 	
 	public void move() {
+		// This will update the y position at a rate of the velY=10
 		y+=velY;
 	}
 }

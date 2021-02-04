@@ -37,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 	public void newBall() {
-		
+		rand = new Random();
+		ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),(GAME_HEIGHT/2)-(BALL_DIAMETER/2),BALL_DIAMETER,BALL_DIAMETER);
 	}
 	
 	public void newPaddles() {
@@ -55,12 +56,28 @@ public class GamePanel extends JPanel implements Runnable {
 	public void draw(Graphics g) {
 		p1.draw(g);
 		p2.draw(g);
+		ball.draw(g);
 	}
 	public void move() {
+		// By calling move here we are bring the paddles into the game loop.
 		
+		// this will smoothen the movement of the paddles since movement will be generated twice the speed and 
+		//also it will be called every time before repainting
+		p1.move();
+		p2.move();
+		ball.move();
 	}
 	
 	public void checkCollision() {
+		// This will check if the ball collides with the border and will set it wo move in opposite direction.
+		if(ball.y<=0) {
+			ball.setY(-ball.velY);
+		}
+		if(ball.y>=GAME_HEIGHT-BALL_DIAMETER-20) {
+			ball.setY(-ball.velY);
+		}
+		
+		// Thiw will check if the baddles are moving beyond the border and will stop it if it has reached the border.
 		if(p1.y<=0) {
 			p1.y=0;
 		}
@@ -73,6 +90,37 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		if(p2.y>=(GAME_HEIGHT-PADDLE_HEIGHT-30)) {
 			p2.y=(GAME_HEIGHT-PADDLE_HEIGHT-30);
+		}
+		
+		// This will chek is the ball has hit the paddles. If so it will reverse the x and y of the ball
+		
+		if(ball.intersects(p1)) {
+			// Intersects method will check if there is any collision between the 2 objects
+			ball.velX=-ball.velX;
+			if(ball.velX<7) {
+				ball.velX++;// Increase the speed of the ball
+				if(ball.velY<0) {
+					ball.velY--; // Increase the speed of the ball
+				}else {
+					ball.velY++;
+				}
+			}
+			ball.setY(ball.velY);
+			ball.setX(ball.velX);
+		}
+		
+		if(ball.intersects(p2)) {// Intersects method will check if there is any collision between the 2 objectsw
+			ball.velX = Math.abs(ball.velX);
+			if(ball.velX<7) {
+				ball.velX++;// Increase the speed of the ball
+				if(ball.velY<0) {
+					ball.velY--; // Increase the speed of the ball
+				}else {
+					ball.velY++;
+				}
+			}
+			ball.setY(ball.velY);
+			ball.setX(-ball.velX);
 		}
 	}
 		
