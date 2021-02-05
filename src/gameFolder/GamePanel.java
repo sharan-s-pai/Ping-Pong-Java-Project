@@ -24,14 +24,14 @@ public class GamePanel extends JPanel implements Runnable {
 	Paddle p1,p2;
 	Ball ball;
 	Score s;
+	JButton b1;
 	public GamePanel() {
+		this.setFocusable(true);
+		this.addKeyListener(new ActionListen());		
+		this.setPreferredSize(SCREEN_SIZE);
 		newPaddles();
 		newBall();
 		s = new Score(GAME_WIDTH,GAME_HEIGHT);
-		this.setFocusable(true);
-		this.addKeyListener(new ActionListen());
-		this.setPreferredSize(SCREEN_SIZE);
-		
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 		image = createImage(getWidth(),getHeight());
 		graphics = image.getGraphics();
 		draw(graphics);
+		s.draw(graphics);
 		g.drawImage(image,0,0,this);
 	}
 	
@@ -97,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(ball.intersects(p1)) {
 			// Intersects method will check if there is any collision between the 2 objects
 			ball.velX=-ball.velX;
-			if(ball.velX<7) {
+			if(ball.velX<10) {
 				ball.velX++;// Increase the speed of the ball
 				if(ball.velY<0) {
 					ball.velY--; // Increase the speed of the ball
@@ -111,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		if(ball.intersects(p2)) {// Intersects method will check if there is any collision between the 2 objectsw
 			ball.velX = Math.abs(ball.velX);
-			if(ball.velX<7) {
+			if(ball.velX<10) {
 				ball.velX++;// Increase the speed of the ball
 				if(ball.velY<0) {
 					ball.velY--; // Increase the speed of the ball
@@ -121,6 +122,22 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			ball.setY(ball.velY);
 			ball.setX(-ball.velX);
+			
+		}
+		
+		//Give a player 1 point and creates new paddles and ball
+		
+		if(ball.x<=0) {
+			s.player2++;
+			newPaddles();
+			newBall();
+			System.out.println("player1="+s.player2);
+		}
+		if(ball.x>=GAME_WIDTH-BALL_DIAMETER) {
+			s.player1++;
+			newPaddles();
+			newBall();
+			System.out.println("player2="+s.player1);
 		}
 	}
 		
@@ -177,4 +194,5 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		
 	}
+
 }

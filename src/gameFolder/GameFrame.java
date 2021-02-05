@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 public class GameFrame extends JFrame {
-	
+	JButton b1;
 	GamePanel panel;
 	public GameFrame() {
 		panel = new GamePanel();
@@ -22,6 +22,6 @@ public class GameFrame extends JFrame {
 		//this.pack();
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
-	}
 
+	}
 }
