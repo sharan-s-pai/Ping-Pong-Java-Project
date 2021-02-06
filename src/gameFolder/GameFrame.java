@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 public class GameFrame extends JFrame {
 	JButton b1;
+	static String player1,player2;
 	GamePanel panel;
 	public GameFrame() {
 		panel = new GamePanel();
